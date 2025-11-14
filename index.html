@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -15,6 +15,7 @@
       --text: #1a1a1a;
       --text-light: #555;
       --pending: #ff9800;
+      --failed: #d32f2f;
       --completed-bg: #e8f5e8;
       --card-bg: #f9fbfd;
       --overlay: rgba(0,0,0,0.6);
@@ -60,7 +61,7 @@
     .welcome-hero p{font-size:19px;max-width:700px;margin:0 auto;opacity:.95;animation:fadeInDown .8s ease-out .2s both}
     .progress-card{max-width:700px;margin:-60px auto 40px;padding:40px;background:#fff;border-radius:20px;box-shadow:0 16px 50px rgba(0,0,0,.12);position:relative;z-index:10;border:1px solid var(--border)}
     .progress-card h2{font-size:28px;text-align:center;margin-bottom:32px;color:var(--text)}
-    .steps{ position:relative; margin:40px 0; }
+    .steps{display:flex;justify-content:space-between;position:relative;margin:40px 0}
     .steps::before{content:'';position:absolute;top:50%;left:0;right:0;height:4px;background:#e0e0e0;z-index:1;border-radius:2px}
     .step{flex:1;text-align:center;position:relative;z-index:2}
     .step-circle{width:60px;height:60px;margin:0 auto 16px;background:#fff;border:4px solid #ccc;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:bold;color:#999;transition:all .4s ease}
@@ -68,14 +69,17 @@
     .step.pending .step-circle{background:#fff;border-color:var(--pending);color:var(--pending);animation:pulsePending 1.8s infinite}
     .step-label{font-weight:600;font-size:15px;color:#666;animation:fadeInUp .6s ease-out both}
     .step.completed .step-label{color:var(--chase-green)}
-    .progress-fill{position:absolute;top:50%;left:0;height:4px;background:var(--chase-green);z-index:1;border-radius:2px;width:100%;transform:translateY(-50%);transition:width 1.2s ease;animation:fillProgress 1.5s ease-out .5s both}
+    .step.pending .step-label{color:var(--pending)}
+    .progress-fill{position:absolute;top:50%;left:0;height:4px;background:var(--chase-green);z-index:1;border-radius:2px;width:75%;transform:translateY(-50%);transition:width 1.2s ease;animation:fillProgress 1.5s ease-out .5s both}
     .checkmark{width:28px;height:28px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);opacity:0}
     .step.completed .checkmark{transform:translate(-50%,-50%) scale(1);opacity:1;animation:checkPop .5s ease-out .3s both}
-    .status-message{text-align:center;margin-top:32px;padding:20px;background:var(--completed-bg);border-radius:12px;font-size:17px;color:var(--chase-green);font-weight:600;animation:fadeIn 1s ease-out 1.8s both}
-    .zelle-card{max-width:700px;margin:40px auto 80px;padding:40px;background:var(--completed-bg);border-radius:20px;border:1px solid #c8e6c9;box-shadow:0 12px 40px rgba(46,125,50,.15);text-align:center;animation:fadeInUp .8s ease-out .5s both}
-    .zelle-card h2{font-size:26px;margin-bottom:16px;color:var(--chase-green)}
+    .status-message{text-align:center;margin-top:32px;padding:20px;background:#fff3e0;border-radius:12px;font-size:17px;color:var(--failed);font-weight:600;border:1px solid #ffcc80;animation:fadeIn 1s ease-out 1.8s both}
+    .zelle-card{max-width:700px;margin:40px auto 80px;padding:40px;background:#fff3e0;border-radius:20px;border:1px solid #ffcc80;box-shadow:0 12px 40px rgba(255,152,0,.15);text-align:center;animation:fadeInUp .8s ease-out .5s both}
+    .zelle-card h2{font-size:26px;margin-bottom:16px;color:var(--failed)}
     .zelle-card .subtitle{color:var(--text-light);font-size:16px;margin-bottom:24px}
-    .success-icon{font-size:48px;color:var(--chase-green);margin:20px 0;animation:popIn .6s ease-out}
+    .amount-due{font-size:36px;font-weight:700;color:var(--failed);margin:24px 0;animation:fadeIn .8s ease-out 1s both}
+    .btn-zelle{background:var(--failed);color:#fff;padding:16px 40px;border:none;border-radius:12px;font-size:18px;font-weight:600;cursor:pointer;transition:all .3s;animation:fadeInUp .8s ease-out 1.4s both}
+    .btn-zelle:hover{background:#b71c1c;transform:translateY(-2px);box-shadow:0 8px 20px rgba(211,47,47,.3)}
     .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--overlay);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:1000;opacity:0;transition:opacity .4s ease}
     .modal-overlay.show{display:flex;opacity:1}
     .modal-content{background:#fff;width:90%;max-width:500px;border-radius:20px;padding:40px;box-shadow:0 20px 60px rgba(0,0,0,.2);transform:scale(.8);opacity:0;transition:all .4s ease;position:relative}
@@ -104,7 +108,7 @@
     @keyframes popIn{0%{transform:scale(0)}80%{transform:scale(1.1)}100%{transform:scale(1)}}
     @keyframes checkPop{0%{transform:translate(-50%,-50%) scale(0)}100%{transform:translate(-50%,-50%) scale(1)}}
     @keyframes pulsePending{0%,100%{box-shadow:0 0 0 0 rgba(255,152,0,.4)}70%{box-shadow:0 0 0 16px rgba(255,152,0,0)}}
-    @keyframes fillProgress{from{width:0}to{width:100%}}
+    @keyframes fillProgress{from{width:0}to{width:75%}}
     @keyframes fadeIn{from{opacity:0}to{opacity:1}}
     @keyframes spin{to{transform:rotate(360deg)}}
 
@@ -114,6 +118,7 @@
       .progress-card,.zelle-card{margin:20px;padding:30px 20px}
       .steps{flex-direction:column;gap:30px}
       .steps::before,.progress-fill{display:none}
+      .amount-due{font-size:30px}
       .modal-content{padding:30px 20px}
       .zelle-logo{height:40px}
     }
@@ -162,13 +167,13 @@
   <!-- ==================== HERO ==================== -->
   <section class="welcome-hero">
     <h1>Welcome, George Gurusaransingh</h1>
-    <p>Your account verification is complete. Payment received and funds are being processed.</p>
+    <p>Your account verification is in progress. The previous payment was cancelled.</p>
   </section>
 
   <!-- ==================== PROGRESS CARD ==================== -->
   <div class="progress-card">
     <h2>Verification Status</h2>
-    <div class="steps" style="display: flex; justify-content: space-between;">
+    <div class="steps">
       <div class="progress-fill"></div>
       <div class="step completed">
         <div class="step-circle">
@@ -194,39 +199,38 @@
         </div>
         <div class="step-label">Third Verification</div>
       </div>
-      <div class="step completed">
+      <div class="step pending">
         <div class="step-circle">
-          <svg class="checkmark" viewBox="0 0 52 52">
-            <path fill="none" stroke="#fff" stroke-width="6" d="M14 27 l8 8 16-16"/>
+          <svg width="28" height="28" viewBox="0 0 38 38" style="animation: spin 1.5s linear infinite;">
+            <circle cx="19" cy="19" r="16" fill="none" stroke="#ff9800" stroke-width="3" stroke-dasharray="80" stroke-dashoffset="60"/>
           </svg>
         </div>
-        <div class="step-label">Payment Confirmed</div>
+        <div class="step-label">Payment Required</div>
       </div>
     </div>
     <div class="status-message">
-      Payment has been received. Your funds will be available within 24 hours. Please check back.
+      The Zelle payment was cancelled. Please resend using the details below.
     </div>
   </div>
 
-  <!-- ==================== ZELLE CARD (COMPLETED) ==================== -->
+  <!-- ==================== ZELLE CARD (CANCELLED) ==================== -->
   <div class="zelle-card">
-    <h2>Payment Received</h2>
-    <p class="subtitle">Thank you for completing the required payment via Zelle.</p>
-    <div class="success-icon">✓</div>
-    <p style="margin-top:20px;font-size:15px;color:#666;">
-      <strong>Amount:</strong> $1,550.00<br>
-      <strong>Status:</strong> Confirmed<br>
-      <strong>Availability:</strong> Within 24 hours
+    <h2>Payment Cancelled – Resend Required</h2>
+    <p class="subtitle">The previous transfer did not go through. Please send again.</p>
+    <div class="amount-due">$1,550.00</div>
+    <button class="btn-zelle" onclick="openZelleModal()">Resend via Zelle</button>
+    <p style="margin-top:20px;font-size:15px;color:#d32f2f;">
+      Funds will be available in <strong>2–3 banking hours</strong> after successful payment.
     </p>
   </div>
 
-  <!-- ==================== MODAL (still included but hidden) ==================== -->
+  <!-- ==================== MODAL ==================== -->
   <div class="modal-overlay" id="zelleModal">
     <div class="modal-content">
       <button class="close-modal" onclick="closeZelleModal()">×</button>
       <div class="modal-header">
         <img src="https://i.postimg.cc/HLq8s0Xr/Zelle-logo-svg-removebg-preview.png" alt="Zelle Logo" class="zelle-logo">
-        <h3>Send Payment via Zelle</h3>
+        <h3>Resend Payment via Zelle</h3>
         <p>Use your banking app to send the exact amount below.</p>
       </div>
       <div class="zelle-info">
@@ -258,7 +262,6 @@
   </footer>
 
   <script>
-    /* Hamburger menu */
     const hamburger = document.getElementById('hamburger');
     const mobileNav = document.getElementById('mobileNav');
     hamburger.addEventListener('click', () => {
@@ -266,7 +269,6 @@
       mobileNav.classList.toggle('open');
     });
 
-    /* Zelle modal (kept but not triggered) */
     function openZelleModal(){
       document.getElementById('zelleModal').classList.add('show');
     }
